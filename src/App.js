@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone'
 import mammoth from 'mammoth'
 import axios from 'axios'
 import './App.css'
+import { Editor, EditorState, ContentState } from 'draft-js'
 
 const url = 'http://localhost:8082/enhancer'
 const headers = {
@@ -26,6 +27,13 @@ class App extends Component {
 export default App;
 
 class MyDropzone extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { editorState: EditorState.createEmpty() };
+    this.onChange = (editorState) => this.setState({ editorState });
+  }
+
   async onFileRead(arrayBuffer) {
     const { value: text } = await mammoth.extractRawText({ arrayBuffer })
     const { data } = await axios({
@@ -36,6 +44,10 @@ class MyDropzone extends Component {
     })
 
     console.log(data)
+    this.setState({
+      editorState: EditorState.createWithContent(ContentState.createFromText(JSON.stringify(data)))
+      // editorState: EditorState.createWithContent(ContentState.createFromText('JSON.stringify(data)'))
+    })
   }
 
   getDocData(acceptedFiles) {
@@ -48,16 +60,22 @@ class MyDropzone extends Component {
 
   render() {
     return (
-      <Dropzone onDrop={acceptedFiles => this.getDocData(acceptedFiles)}>
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <p>Drag 'n' drop docx file here, or click to select a file</p>
-            </div>
-          </section>
-        )}
-      </Dropzone>
+      <div>
+        <Dropzone onDrop={acceptedFiles => this.getDocData(acceptedFiles)}>
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Drag 'n' drop docx file here, or click to select a file</p>
+              </div>
+            </section>
+          )}
+        </Dropzone>
+        <div>
+          <h2>Enhanced data: </h2>
+          <Editor editorState={this.state.editorState} onChange={this.onChange} />
+        </div>
+      </div>
     );
   }
 }
