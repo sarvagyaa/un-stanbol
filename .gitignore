@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 src/secret.json
+.vscode
 
 # testing
 /coverage

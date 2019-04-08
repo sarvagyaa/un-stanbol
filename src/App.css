@@ -14,3 +14,7 @@
   font-size: calc(10px + 2vmin);
 }
 
+.rawDataArea {
+  min-width: 50vw;
+  min-height: 40vh;
+}

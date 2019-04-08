@@ -3,9 +3,9 @@ import Dropzone from 'react-dropzone'
 import mammoth from 'mammoth'
 import axios from 'axios'
 import './App.css'
-import { Editor, EditorState, ContentState } from 'draft-js'
+import JSONTree from 'react-json-tree'
 
-const url = 'http://localhost:8082/enhancer'
+const url = `http://wit.istc.cnr.it:9090/enhancer`
 const headers = {
   Accept: 'application/json',
   'Content-type': 'text/plain',
@@ -30,8 +30,7 @@ class MyDropzone extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
-    this.onChange = (editorState) => this.setState({ editorState });
+    this.state = {data: null}
   }
 
   async onFileRead(arrayBuffer) {
@@ -44,10 +43,7 @@ class MyDropzone extends Component {
     })
 
     console.log(data)
-    this.setState({
-      editorState: EditorState.createWithContent(ContentState.createFromText(JSON.stringify(data)))
-      // editorState: EditorState.createWithContent(ContentState.createFromText('JSON.stringify(data)'))
-    })
+    this.setState({data})
   }
 
   getDocData(acceptedFiles) {
@@ -59,6 +55,13 @@ class MyDropzone extends Component {
   }
 
   render() {
+    const {data} = this.state
+    const onData = (
+      <div>
+        <JSONTree data={data} theme={theme} invertTheme={false} hideRoot={true}/>
+        <h3>Raw output: </h3>
+        <textarea className='rawDataArea'>{JSON.stringify(data, null, 2)}</textarea>
+      </div>)
     return (
       <div>
         <Dropzone onDrop={acceptedFiles => this.getDocData(acceptedFiles)}>
@@ -73,9 +76,30 @@ class MyDropzone extends Component {
         </Dropzone>
         <div>
           <h2>Enhanced data: </h2>
-          <Editor editorState={this.state.editorState} onChange={this.onChange} />
+          {data && onData}
         </div>
       </div>
     );
   }
 }
+
+const theme = {
+  scheme: 'monokai',
+  author: 'wimer hazenberg (http://www.monokai.nl)',
+  base00: '#272822',
+  base01: '#383830',
+  base02: '#49483e',
+  base03: '#75715e',
+  base04: '#a59f85',
+  base05: '#f8f8f2',
+  base06: '#f5f4f1',
+  base07: '#f9f8f5',
+  base08: '#f92672',
+  base09: '#fd971f',
+  base0A: '#f4bf75',
+  base0B: '#a6e22e',
+  base0C: '#a1efe4',
+  base0D: '#66d9ef',
+  base0E: '#ae81ff',
+  base0F: '#cc6633'
+};
