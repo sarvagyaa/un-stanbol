@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div className='App'>
         <div className='App-body'>
-          <h1>Wrapped stanbol</h1>
+          <h1>Stanbol based enhancer</h1>
           <MyDropzone />
         </div>
       </div>
@@ -69,7 +69,7 @@ class MyDropzone extends Component {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop docx file here, or click to select a file</p>
+                <p>Click here and upload a Word Document</p>
               </div>
             </section>
           )}
