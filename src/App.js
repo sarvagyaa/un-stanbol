@@ -75,7 +75,7 @@ class MyDropzone extends Component {
           )}
         </Dropzone>
         <div>
-          <h2>Enhanced data: </h2>
+          <h2>Annotations: </h2>
           {data && onData}
         </div>
       </div>
