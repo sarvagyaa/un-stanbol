@@ -2,6 +2,7 @@
   "name": "wrap-stanbol",
   "version": "0.1.0",
   "private": false,
+  "homepage": "https://sarvagyaa.github.io/un-stanbol",
   "dependencies": {
     "axios": "^0.18.0",
     "mammoth": "^1.4.8",
@@ -13,6 +14,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
