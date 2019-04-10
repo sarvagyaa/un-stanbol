@@ -24,7 +24,6 @@
     "extends": "react-app"
   },
   "proxy": "http://wit.istc.cnr.it:9090",
-  "homepage": "ssh://github.com/Mido22/un-stanbol",
   "browserslist": [
     ">0.2%",
     "not dead",
